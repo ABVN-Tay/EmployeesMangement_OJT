@@ -1,0 +1,63 @@
+<mvc:View
+  controllerName="project1.controller.Detail"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  displayBlock="true">
+  <Page
+    id="detailPage"
+    title="Employee Details"
+    showNavButton="true"
+    navButtonPress="onNavBack"
+    class="sapUiResponsivePadding">
+    <headerContent>
+      <Button 
+        id="addBtn"
+        text="Add"
+        icon="sap-icon://add"
+        press="onAddPress"
+        visible="{= ${local>/roles} === 'Admin' }" />
+
+      <Button 
+        id="editBtn"
+        text="Edit"
+        icon="sap-icon://edit"
+        press="onEditPress" 
+        visible="{= ${local>/roles} === 'Admin' }"/>
+
+      <Button
+        id="caculateBtn"      
+        text="Salary Caculate"
+        icon="sap-icon://currency"
+        press="onCaculatePress" 
+        visible="true"/>
+    </headerContent>
+    <VBox id="_IDGenVBox" class="sapUiSmallMargin">
+
+      <ObjectAttribute 
+        id="firstName"
+        title="First Name"
+        text="{firstName}" />
+
+      <ObjectAttribute 
+        id="lastName"
+        title="Last Name"
+        text="{lastName}" />
+
+      <ObjectAttribute
+        id="roles"
+        title="Role"
+        text="{roles/name}" />
+
+      <ObjectAttribute
+        id="departments"
+        title="Department"
+        text="{departments/name}" />
+
+      <ObjectAttribute
+        id="email"
+        title="Email"
+        text="{email}" />
+
+    </VBox>
+  </Page>
+</mvc:View>

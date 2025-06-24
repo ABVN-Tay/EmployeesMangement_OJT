@@ -8,4 +8,12 @@ service CatalogService  @(require: 'authenticated-user') {
     as projection on my.Employees;
     entity Departments as projection on my.Departments;
     entity Roles as projection on my.Roles;
+
+    function getCurrentUser() returns {
+        id    : String;
+        email : String;
+        roles : String;
+    };
 }
+
+

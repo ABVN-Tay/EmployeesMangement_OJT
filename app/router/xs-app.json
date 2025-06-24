@@ -29,5 +29,6 @@
       "csrfProtection": true,
       "authenticationType": "xsuaa"
     }
-  ]
+  ],
+  "welcomeFile": "/project1/webapp"
 }
