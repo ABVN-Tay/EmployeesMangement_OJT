@@ -1,0 +1,42 @@
+<mvc:View
+  controllerName="project1.controller.Detail"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  displayBlock="true">
+  <Page
+    id="detailPage"
+    title="Employee Details"
+    showNavButton="true"
+    navButtonPress="onNavBack"
+    class="sapUiResponsivePadding">
+
+    <VBox id="_IDGenVBox" class="sapUiSmallMargin">
+
+      <ObjectAttribute 
+        id="firstName"
+        title="First Name"
+        text="{firstName} " />
+
+      <ObjectAttribute 
+        id="lastName"
+        title="Last Name"
+        text="{lastName}" />
+
+      <ObjectAttribute
+        id="roles"
+        title="Role"
+        text="{roles/name}" />
+
+      <ObjectAttribute
+        id="departments"
+        title="Department"
+        text="{departments/name}" />
+
+      <ObjectAttribute
+        id="email"
+        title="Email"
+        text="{email}" />
+
+    </VBox>
+  </Page>
+</mvc:View>

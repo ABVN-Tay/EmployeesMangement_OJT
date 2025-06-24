@@ -1,0 +1,98 @@
+<mvc:View
+    controllerName="project1.controller.EmployeesList"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+	xmlns:p="sap.m.plugins"    
+    xmlns:core="sap.ui.core">
+    <Page
+        id="page"
+        title="{i18n>title}">
+        <Table id="productsTable"
+            items="{/Employees}">
+            <columns>
+                <Column id="idCol" width="12em" visible="false"><Text id="idText" text="ID" /></Column>
+                <Column id="nameCol" width="12em"><Text id="nameText" text="Name" /></Column>
+                <Column id="emailCol"       minScreenWidth="Tablet" demandPopin="true"><Text id="emailText" text="Email" /></Column>
+                <Column id="rolesCol"       minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text id="rolesText" text="Roles" /></Column>
+                <Column id="departmentsCol" minScreenWidth="Tablet" demandPopin="true" hAlign="End"><Text id="departmentsText" text="Departments" /></Column>
+            </columns>
+            <items>
+                <ColumnListItem id="_IDGenColumnListItem"
+                    type="Active"
+                    vAlign="Middle"
+                    navigated="{
+                            parts: [
+                                'settings>/navigatedItem',
+                                'ProductId'
+                            ],
+                            formatter: '.isNavigated'
+                        }"
+                    press="onPress">
+                    <cells>
+                        <Text id="ID" text="{ID}" visible="false"/>
+                        <Text id="Name" text="{firstName} {lastName}" />
+                        <Text id="Email" text="{email}" />
+                        <Text id="Roles" text="{roles/name}" />
+                        <Text id="Departments" text="{departments/name}" />
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+        <!-- <Table
+            id="idEmployeesTable"
+            inset="false"
+            
+            mode="SingleSelectLeft"
+            itemPress="onRowPress"
+            items="{
+                        path: '/Employees'
+                    }">
+            <columns>
+            
+                <Column 
+                    id="IDColumn"
+                    minScreenWidth="Tablet"
+                    demandPopin="true"
+                    visible="false">
+                    <Text id="IDText" text="ID" />
+                </Column>
+                <Column 
+                    id="_NameColumn"
+                    minScreenWidth="Tablet"
+                    demandPopin="true">
+                    <Text id="_IDNameText" text="Name" />
+                </Column>
+                <Column
+                    id="EmailColumn"                
+                    minScreenWidth="Desktop"
+                    demandPopin="true"
+                    hAlign="Center">
+                    <Text id="_IDEmailText" text="Email" />
+                </Column>
+                <Column
+                    id="RolesColumn"                
+                    minScreenWidth="Desktop"
+                    demandPopin="true"
+                    hAlign="Center">
+                    <Text id="RolesText" text="Roles" />
+                </Column>
+                <Column
+                    id="DeparmentsColumn"                 
+                    hAlign="End">                
+                    <Text id="DepartmentsText" text="Departments" />
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem id="_IDGenColumnListItem" vAlign="Middle">
+                    <cells>
+                        <Text id="ID" text="{ID}" visible="false"/>
+                        <Text id="Name" text="{firstName} {lastName}" />
+                        <Text id="Email" text="{email}" />
+                        <Text id="Roles" text="{roles/name}" />
+                        <Text id="Departments" text="{departments/name}" />
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table> -->
+    </Page>
+</mvc:View>
