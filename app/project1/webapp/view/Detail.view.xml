@@ -9,13 +9,34 @@
     showNavButton="true"
     navButtonPress="onNavBack"
     class="sapUiResponsivePadding">
+    <headerContent>
+      <Button 
+        id="addBtn"
+        text="Add"
+        icon="sap-icon://add"
+        press="onAddPress"
+        visible="{= ${local>/roles} === 'Admin' }" />
 
+      <Button 
+        id="editBtn"
+        text="Edit"
+        icon="sap-icon://edit"
+        press="onEditPress" 
+        visible="{= ${local>/roles} === 'Admin' }"/>
+
+      <Button
+        id="caculateBtn"      
+        text="Salary Caculate"
+        icon="sap-icon://currency"
+        press="onCaculatePress" 
+        visible="true"/>
+    </headerContent>
     <VBox id="_IDGenVBox" class="sapUiSmallMargin">
 
       <ObjectAttribute 
         id="firstName"
         title="First Name"
-        text="{firstName} " />
+        text="{firstName}" />
 
       <ObjectAttribute 
         id="lastName"

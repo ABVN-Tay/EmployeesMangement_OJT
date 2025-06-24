@@ -7,16 +7,14 @@ sap.ui.define([
 
     return Controller.extend("project1.controller.EmployeesList", {
         onInit() {
-            
+          
         },
         onPress: function (oEvent) {
             var oItem = oEvent.getSource();
             var oBindingContext = oItem.getBindingContext();
+            
             //this gets the row data object
             var oEmployee = oBindingContext.getObject(); 
-        
-            // Optional toast for feedback
-            sap.m.MessageToast.show("Pressed: " + oEmployee.firstName + " " + oEmployee.lastName +"    ID: " + oEmployee.ID);
         
             // Get the router
             var oRouter = sap.ui.core.UIComponent.getRouterFor(this);

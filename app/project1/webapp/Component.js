@@ -16,6 +16,14 @@ sap.ui.define([
             // call the base component's init function
             UIComponent.prototype.init.apply(this, arguments);
 
+            const oDataModel = new sap.ui.model.odata.v4.ODataModel({
+                serviceUrl: "/catalogService/",
+                synchronizationMode: "None",
+                autoExpandSelect: true
+              });
+            
+            this.setModel(oDataModel); // default model
+
             // set the device model
             this.setModel(models.createDeviceModel(), "device");
 
