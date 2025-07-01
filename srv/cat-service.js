@@ -2,27 +2,15 @@ const cds = require('@sap/cds');
 const { request } = require('express');
 class EmployeesService extends cds.ApplicationService {
   init() {
-    this.before('UPDATE', 'Employees', async (req) => {
-      // validation before update
-      const employee = req.data;
-      const errors = this.validateEmployee(employee);
-      if (errors.length > 0) {
-        return req.error(400, errors[0]);
-      }
-    })
     this.before('CREATE', 'Employees', req => {
       if (!req.data.ID) {
         req.data.ID = cds.utils.uuid(); // generates a v4 UUID
-      //   const errors = this.validateEmployee(req.data);
-      //   if (errors.length > 0) {
-      //     return req.error(400, errors[0]);
-      //   }
       }
     });
     this.on('getCurrentUser', async (req) => {
       // console.log(req)
       const user = req.user;
-      console.log(user.tokenInfo)
+      console.log(user.tokenInfo ? user.tokenInfo.jwt : "")
 
       const hasAdminRole = !!(user.roles && user.roles.Admin);
       return {
@@ -32,7 +20,7 @@ class EmployeesService extends cds.ApplicationService {
         firstName: user.attr.giveName || "Unknow",
         lastName: user.attr.familyName || "Unknow",
         isEdit: false,
-        token: user.tokenInfo
+        token: user.tokenInfo ? user.tokenInfo.jwt : ""
       }
     })
     return super.init()
