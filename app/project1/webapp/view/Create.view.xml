@@ -1,44 +1,19 @@
 <mvc:View
-  controllerName="project1.controller.Detail"
+  controllerName="project1.controller.Create"
   xmlns:mvc="sap.ui.core.mvc"
   xmlns:f="sap.ui.layout.form"
   xmlns="sap.m"
   xmlns:core="sap.ui.core"
   displayBlock="true">
   <Page
-    id="detailPage"
+    id="createPage"
     title="Employee Details"
     showNavButton="true"
     navButtonPress="onNavBack"
     class="sapUiResponsivePadding">
     <headerContent>
       <Button 
-        id="addBtn"
-        text="Add"
-        icon="sap-icon://add"
-        press="onAddPress"
-        visible="{
-          parts: [
-            { path: 'local>/roles' },
-            { path: 'local>/isEdit' }
-          ],
-          formatter: '.isVisibleForAdminNotEditing'
-        }"/>
-
-      <Button 
-        id="editBtn"
-        text="Edit"
-        icon="sap-icon://edit"
-        press="onEditPress" 
-        visible="{
-          parts: [
-            { path: 'local>/roles' },
-            { path: 'local>/isEdit' }
-          ],
-          formatter: '.isVisibleForAdminNotEditing'
-        }"/>
-      <Button 
-        id="saveBtn"
+        id="saveBtn2"
         text="Save"
         icon="sap-icon://save"
         press="onSavePress" 
@@ -50,8 +25,8 @@
           formatter: '.isVisibleForAdminEditing'
         }"/>
       <Button 
-        id="cancelBtn"
-        text="Cancel"
+        id="cancelBtn2"
+        text="cancel"
         icon="sap-icon://cancel"
         press="onCancelPress" 
         visible="{
@@ -60,11 +35,23 @@
             { path: 'local>/isEdit' }
           ],
           formatter: '.isVisibleForAdminEditing'
-        }"/>        
+        }"/>  
+      <Button 
+        id="sampleBtn"
+        text="Sample"
+        icon="sap-icon://add-document"
+        press="onSamplePress" 
+        visible="{
+          parts: [
+            { path: 'local>/roles' },
+            { path: 'local>/isEdit' }
+          ],
+          formatter: '.isVisibleForAdminEditing'
+        }"/>               
     </headerContent>
-    <VBox id="_IDGenVBox" class="sapUiSmallMargin">    
+    <VBox id="_IDGenVBox2" class="sapUiSmallMargin">    
       <f:SimpleForm
-          id="EmployeeForm"
+          id="EmployeeForm2"
           editable="{
           parts: [
             { path: 'local>/roles' },
@@ -78,9 +65,9 @@
           adjustLabelSpan="false"
           emptySpanXL="4" emptySpanL="4" emptySpanM="0" emptySpanS="0"
           columnsXL="2" columnsL="2" columnsM="1">
-          <Input id="empID" visible="false" value="{detailModel>/ID}"></Input>
-          <Label id="firstNameLB" text="First Name" />
-          <Input id="firstNameInput" value="{detailModel>/firstName}" 
+          <Input id="empID2" visible="false" value="{ID}"></Input>
+          <Label id="firstNameLB2" text="First Name" />
+          <Input id="firstNameInput2" value="{initEmployee>/firstName}" 
             editable="{
               parts: [
                 { path: 'local>/roles' },
@@ -89,8 +76,8 @@
               formatter: '.isVisibleForAdminEditing'
             }" />
 
-          <Label id="lastNameLB" text="Last Name" />
-          <Input id="lastNameInput" value="{detailModel>/lastName}"
+          <Label id="lastNameLB2" text="Last Name" />
+          <Input id="lastNameInput2" value="{initEmployee>/lastName}"
             editable="{
               parts: [
                 { path: 'local>/roles' },
@@ -99,8 +86,8 @@
               formatter: '.isVisibleForAdminEditing'
             }" />
 
-          <Label id="dobLB" text="Date of Birth" />
-          <DatePicker id="dobInput" value="{detailModel>/dateOfBirth}" valueFormat="yyyy-MM-dd" displayFormat="yyyy-MM-dd"
+          <Label id="dobLB2" text="Date of Birth" />
+          <DatePicker id="dobInput2" value="{initEmployee>/dateOfBirth}" valueFormat="yyyy-MM-dd" displayFormat="yyyy-MM-dd"
             editable="{
               parts: [
                 { path: 'local>/roles' },
@@ -109,9 +96,9 @@
               formatter: '.isVisibleForAdminEditing'
             }" />
 
-          <Label id="genderLB" text="Gender" />
+          <Label id="genderLB2" text="Gender" />
           <Select
-            id="genderInput"
+            id="genderInput2"
             items="{
               path: 'genderModel>/',
               templateShareable: false
@@ -123,13 +110,13 @@
               ],
               formatter: '.isVisibleForAdminEditing'
             }" 
-            selectedKey="{detailModel>/gender}"
+            selectedKey="initEmployee>/gender"
           >
-            <core:Item id="_IDGenItem" key="{genderModel>key}" text="{genderModel>text}" />
+            <core:Item id="_IDGenItem2" key="{genderModel>key}" text="{genderModel>text}" />
           </Select>
 
-          <Label id="emailLB" text="Email" />
-          <Input id="emailInput" value="{detailModel>/email}"
+          <Label id="emailLB2" text="Email" />
+          <Input id="emailInput2" value="{initEmployee>/email}"
             editable="{
               parts: [
                 { path: 'local>/roles' },
@@ -138,9 +125,9 @@
               formatter: '.isVisibleForAdminEditing'
             }" />
 
-          <Label id="hireDateLB" text="Hire Date"/>
+          <Label id="hireDateLB2" text="Hire Date"/>
           <DatePicker 
-            id="hireDateInput" 
+            id="hireDateInput2" 
             valueFormat="yyyy-MM-dd"
             displayFormat="yyyy-MM-dd"
             editable="{
@@ -150,12 +137,12 @@
               ],
               formatter: '.isVisibleForAdminEditing'
             }"
-            value= "{detailModel>/hireDate}" />
+            value= "{initEmployee>/hireDate}" />
 
       </f:SimpleForm>
-      <Label id="Separator1" ></Label>
+      <Label id="Separator4" ></Label>
       <f:SimpleForm
-          id="RolesForm"
+          id="RolesForm2"
           editable="{
             parts: [
               { path: 'local>/roles' },
@@ -169,10 +156,10 @@
           adjustLabelSpan="false"
           emptySpanXL="4" emptySpanL="4" emptySpanM="0" emptySpanS="0"
           columnsXL="2" columnsL="2" columnsM="1">
-          <Label id="rolesNameLB"
-            text="Role Name" />               
-          <Select id="rolesSelect"
-            selectedKey="{detailModel>/roles_ID}" 
+          <Label id="rolesNameLB2"
+            text="Department Name" />               
+          <Select id="rolesSelect2"
+            selectedKey="{initEmployee>/roles_ID}" 
             items="{
               path: 'rolesModel>/Roles'
             }"
@@ -184,17 +171,23 @@
               ],
               formatter: '.isVisibleForAdminEditing'
             }">
-            <core:Item id="roleItem" key="{rolesModel>ID}" text="{rolesModel>name}" />
+            <core:Item id="roleItem2" key="{rolesModel>ID}" text="{rolesModel>name}" />
           </Select>
-          <Label id="baseSalaryLB" visible="{= ${local>/roles} === 'Admin'}"  text="Base Salary" />    
-          <Input id="baseSalaryInput"
-            value="{detailModel>/roles/baseSalary}"             
+          <!-- <Label id="baseSalaryLB2" visible="{= ${local>/roles} === 'Admin'}"  text="Base Salary" />    
+          <Input id="baseSalaryInput2"
+            value="{
+                path: 'rolesModel>/baseSalary',
+                type: 'sap.ui.model.odata.type.Decimal',
+                formatOptions: {
+                    groupingEnabled: false
+                  }
+              }"             
             editable="false"
-            visible="{= ${local>/roles} === 'Admin'}"/>
+            visible="{= ${local>/roles} === 'Admin'}"/> -->
       </f:SimpleForm>    
-      <Label id="Separator2" ></Label>
+      <Label id="Separator5" ></Label>
       <f:SimpleForm
-          id="DepartemntsForm"
+          id="DepartemntsForm2"
           editable="{
             parts: [
               { path: 'local>/roles' },
@@ -208,10 +201,10 @@
           adjustLabelSpan="false"
           emptySpanXL="4" emptySpanL="4" emptySpanM="0" emptySpanS="0"
           columnsXL="2" columnsL="2" columnsM="1">
-          <Label id="departmentsNameLB"
+          <Label id="departmentsNameLB2"
             text="Department Name" />        
-          <Select id="departmentsSelect"
-            selectedKey="{detailModel>/departments_ID}" 
+          <Select id="departmentsSelect2"
+            selectedKey="{initEmployee>/departments_ID}" 
             items="{
               path: 'departmentsModel>/Departments'
             }"
@@ -222,13 +215,12 @@
               ],
               formatter: '.isVisibleForAdminEditing'
             }">
-            <core:Item id="deparmentItem" key="{departmentsModel>ID}" text="{departmentsModel>name}" />
+            <core:Item id="deparmentItem2" key="{departmentsModel>ID}" text="{departmentsModel>name}" />
           </Select>
-
       </f:SimpleForm>   
-      <Label id="Separator3" ></Label>         
+      <!-- <Label id="Separator6" ></Label>         
       <f:SimpleForm
-          id="SalaryForm"
+          id="SalaryForm2"
           editable = "false"
           visible="{= ${local>/roles} === 'Admin'}"
           title="Salary"
@@ -238,23 +230,23 @@
           emptySpanXL="4" emptySpanL="4" emptySpanM="0" emptySpanS="0"
           columnsXL="2" columnsL="2" columnsM="1">
 
-          <Label id="CalSalaryLB" text="Total Salary" />
-          <Input id="SalaryInput" 
-              value="{detailModel>/salary}"
+          <Label id="CalSalaryLB2" text="Total Salary" />
+          <Input id="SalaryInput2" 
+              value="{
+              path: 'salary>/calSalary',
+              type: 'sap.ui.model.type.Decimal',
+              formatOptions: {
+                groupingEnabled: false
+              }
+            }"
             editable="false"/>  
           <Button
-            id="caculateBtn"      
+            id="caculateBtn2"      
             text="Salary Caculate"
             icon="sap-icon://currency"
             press="onCaculatePress" 
-            visible="{
-              parts: [
-                { path: 'local>/roles' },
-                { path: 'local>/isEdit' }
-                ],
-              formatter: '.isVisibleForAdminEditing'
-            }"/>            
-      </f:SimpleForm>          
+            visible="{= ${local>/roles} === 'Admin'}"/>            
+      </f:SimpleForm>           -->
     </VBox>  
   </Page>
 </mvc:View>

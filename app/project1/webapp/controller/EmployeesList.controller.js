@@ -23,6 +23,15 @@ sap.ui.define([
             oRouter.navTo("EmployeesDetail", {
                 id: oEmployee.ID
             });
-		}  
+		},
+        onAddPress: function(){
+            this.setEditMode()
+            this.getOwnerComponent().getRouter().navTo("Create");
+        },
+
+        setEditMode: function(){
+            const oLocalModel = this.getView().getModel("local");
+            oLocalModel.setProperty("/isEdit", true);
+        }
     });
 });

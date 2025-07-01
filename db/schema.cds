@@ -19,6 +19,8 @@ entity Employees {
   gender      : String;     
   email       : String;      
   hireDate    : Date; 
+  salary      : Decimal(15,2);
+  
   departments : Association to one Departments;
   roles       : Association to one Roles;
 }

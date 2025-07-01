@@ -12,7 +12,6 @@ sap.ui.define([
           .then((oData) => {
             const oLocal = new sap.ui.model.json.JSONModel(oData);
             this.getView().setModel(oLocal, "local");
-            console.log("User Info: ", oData)
           })
           .catch(console.error);        
       }
