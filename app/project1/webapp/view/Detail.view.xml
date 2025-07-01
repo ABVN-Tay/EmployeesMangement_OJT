@@ -25,6 +25,18 @@
           formatter: '.isVisibleForAdminNotEditing'
         }"/>
       <Button 
+        id="deleteBtn"
+        text="Edit"
+        icon="sap-icon://delete"
+        press="onDeletePress" 
+        visible="{
+          parts: [
+            { path: 'local>/roles' },
+            { path: 'local>/isEdit' }
+          ],
+          formatter: '.isVisibleForAdminNotEditing'
+        }"/>
+      <Button 
         id="saveBtn"
         text="Save"
         icon="sap-icon://save"
