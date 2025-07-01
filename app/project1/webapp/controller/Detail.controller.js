@@ -109,8 +109,7 @@ sap.ui.define([
       // get data model from view (oModel binding in View)
       const oEmployee = this.getView().getModel("detailModel").getData();
       const oLocal = this.getView().getModel("local").getData();
-      // const accessToken = oLocal.token;
-      const accessToken = "eyJhbGciOiJSUzI1NiIsImprdSI6Imh0dHBzOi8vYzg0Mzc5YTZ0cmlhbC5hdXRoZW50aWNhdGlvbi51czEwLmhhbmEub25kZW1hbmQuY29tL3Rva2VuX2tleXMiLCJraWQiOiJkZWZhdWx0LWp3dC1rZXktZTkyMzc1YzU3NSIsInR5cCI6IkpXVCIsImppZCI6ICJnVUNqVGd0U1h3R3RYeUFpSkdCQUV3MjFOVGJqempqMm4xMXhDZWZIQmpJPSJ9.eyJqdGkiOiIxZTFlZTU2MzZlYWI0MWI2ODMxYzc3YTg3NDk2ZDAxNiIsImV4dF9hdHRyIjp7ImVuaGFuY2VyIjoiWFNVQUEiLCJzdWJhY2NvdW50aWQiOiIzMDZhNmNmNS0xMzQyLTQzYWMtODYwYi1mNDAzNGU0NGJmNGEiLCJ6ZG4iOiJjODQzNzlhNnRyaWFsIn0sInVzZXJfdXVpZCI6IjZlYmMwNWI2LWYzY2QtNGVkMi04N2QzLWRmYjA3OWYwOGY5ZCIsInhzLnVzZXIuYXR0cmlidXRlcyI6e30sInhzLnN5c3RlbS5hdHRyaWJ1dGVzIjp7InhzLnJvbGVjb2xsZWN0aW9ucyI6WyJTQVAgSEFOQSBDbG91ZCBWaWV3ZXIiLCJTdWJhY2NvdW50IFNlcnZpY2UgQWRtaW5pc3RyYXRvciIsIlNBUCBIQU5BIENsb3VkIEFkbWluaXN0cmF0b3IiLCJTdWJhY2NvdW50IFZpZXdlciIsIkJ1c2luZXNzX0FwcGxpY2F0aW9uX1N0dWRpb19EZXZlbG9wZXIiLCJDbG91ZCBDb25uZWN0b3IgQWRtaW5pc3RyYXRvciIsIkFkbWluIiwiRGVzdGluYXRpb24gQWRtaW5pc3RyYXRvciIsIkJ1c2luZXNzX0FwcGxpY2F0aW9uX1N0dWRpb19FeHRlbnNpb25fRGVwbG95ZXIiLCJCdXNpbmVzc19BcHBsaWNhdGlvbl9TdHVkaW9fQWRtaW5pc3RyYXRvciIsIlN1YmFjY291bnQgQWRtaW5pc3RyYXRvciIsIkNvbm5lY3Rpdml0eSBhbmQgRGVzdGluYXRpb24gQWRtaW5pc3RyYXRvciIsIlNBUCBIQU5BIENsb3VkIFNlY3VyaXR5IEFkbWluaXN0cmF0b3IiXX0sImdpdmVuX25hbWUiOiJOR08iLCJmYW1pbHlfbmFtZSI6IlRBWSIsInN1YiI6ImE3MGFhYTBkLTYyNmEtNDU2ZS04YTZhLWNiYWY4Yjg5ZTQzNiIsInNjb3BlIjpbIm9wZW5pZCIsIkVtcGxveWVlc01hbmFnZW1lbnQhdDQ2MjI0OS5BZG1pbiJdLCJjbGllbnRfaWQiOiJzYi1FbXBsb3llZXNNYW5hZ2VtZW50IXQ0NjIyNDkiLCJjaWQiOiJzYi1FbXBsb3llZXNNYW5hZ2VtZW50IXQ0NjIyNDkiLCJhenAiOiJzYi1FbXBsb3llZXNNYW5hZ2VtZW50IXQ0NjIyNDkiLCJncmFudF90eXBlIjoiYXV0aG9yaXphdGlvbl9jb2RlIiwidXNlcl9pZCI6ImE3MGFhYTBkLTYyNmEtNDU2ZS04YTZhLWNiYWY4Yjg5ZTQzNiIsIm9yaWdpbiI6InNhcC5kZWZhdWx0IiwidXNlcl9uYW1lIjoidGF5dGhhbmgxOTk5QGdtYWlsLmNvbSIsImVtYWlsIjoidGF5dGhhbmgxOTk5QGdtYWlsLmNvbSIsImF1dGhfdGltZSI6MTc1MTM1NDM2MiwicmV2X3NpZyI6IjNlMDU0NjQ1IiwiaWF0IjoxNzUxMzU0MzYzLCJleHAiOjE3NTEzOTc1NjMsImlzcyI6Imh0dHBzOi8vYzg0Mzc5YTZ0cmlhbC5hdXRoZW50aWNhdGlvbi51czEwLmhhbmEub25kZW1hbmQuY29tL29hdXRoL3Rva2VuIiwiemlkIjoiMzA2YTZjZjUtMTM0Mi00M2FjLTg2MGItZjQwMzRlNDRiZjRhIiwiYXVkIjpbInNiLUVtcGxveWVlc01hbmFnZW1lbnQhdDQ2MjI0OSIsIkVtcGxveWVlc01hbmFnZW1lbnQhdDQ2MjI0OSIsIm9wZW5pZCJdfQ.SxSkhQSvi-Wgf-Ir0r_NTbvVyp5l0zYL5gjsQVkr4Ksdt6RvVR4QzepFVd66YD_JhVS2A8bXOLp7e-xWzmTW7OuYr1i79e0QcdeXHC6_8FgIUpc0So9gEqlN3CiUFjPD1v3rodf70dLCvDHv96Ik3UQM0eR92rA9U6RymbLbezr3IjhCKxYqOSGaYsORd-KOoigFkZvlqvQHvPafsJTUJ_m9aA2ol4bmqRfPMP3dksTsEGjXjum9Xxdj8askNWs8OP8-fiJVvSKOPBkf99hf5fVjOd84YJAr_OuZl5G-RuBtqTeT-8VUITR1UCG1_dinsCLzIcw-1jVHNRDewfBPtg";
+      const accessToken = oLocal.token;
       const newEmployee = {
         ID: oEmployee.ID,
         firstName: oEmployee.firstName,
@@ -125,16 +124,19 @@ sap.ui.define([
       };
       console.log("accessToken",accessToken)
       console.log(newEmployee)
-      fetch(`/catalogService/Employees('${sId}')`, {
+
+      fetch(`/catalogService/Employees(${oEmployee.ID})`, {
         method: "PUT",
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`
+          'x-csrf-token': 'Fetch',
+          // 'Authorization': `Bearer ${accessToken}`
+          
         },
         body: JSON.stringify(newEmployee)
       })
         .then(response => {
-          console.log(response)
+          //console.log(response.json())
           if (!response.ok) throw new Error("Network response was not ok");
           return response.json();
         })
@@ -281,6 +283,27 @@ sap.ui.define([
 
       detailModel.setProperty("/roles", matchRole);
 
+    },
+    onDeletePress: function(){
+      var oBundle = this.getView().getModel("i18n").getResourceBundle();
+      var deleteMessage = oBundle.getText("deleteMessage");       // Get cancelMessagage
+      MessageBox.confirm(
+        deleteMessage,
+        {
+          title: "Confirm Delete",
+          actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+          emphasizedAction: MessageBox.Action.NO,
+          onClose: function (oAction) {
+            if (oAction === MessageBox.Action.YES) {
+              this.deleteEmployee()
+            }
+          }.bind(this)
+        }
+      );    
+
+    },
+    deleteEmployee: function(){
+      
     }
   });
 });

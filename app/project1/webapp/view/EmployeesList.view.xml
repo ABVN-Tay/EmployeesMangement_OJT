@@ -15,7 +15,7 @@
         press="onAddPress"
         visible="{= ${local>/roles} === 'Admin'}"/>     
     </headerContent>        
-        <Label id="Separator" ></Label>
+        <Label id="Separator" ></Label> 
         <Table id="productsTable"
             items="{/Employees}">
             <columns>

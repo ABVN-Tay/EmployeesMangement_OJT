@@ -59,6 +59,8 @@ sap.ui.define([
         onSavePress: async function () {
             // get data model from view (oModel binding in View)
             const oEmployee = this.getView().getModel("initEmployee").oData;
+            const oLocal = this.getView().getModel("local").getData();
+            const accessToken = oLocal.token;
             console.log("initEmployee ", oEmployee)
 
             // setup employee to create 
@@ -79,6 +81,8 @@ sap.ui.define([
             fetch("/catalogService/Employees", {
                 method: "POST",
                 headers: {
+                    // 'Authorization': `Bearer ${accessToken}`,
+                    'x-csrf-token': 'Fetch',
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(newEmployee)

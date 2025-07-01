@@ -3,16 +3,20 @@ const { request } = require('express');
 class EmployeesService extends cds.ApplicationService {
   init() {
     this.before('CREATE', 'Employees', req => {
+      console.log(req.user)
       if (!req.data.ID) {
         req.data.ID = cds.utils.uuid(); // generates a v4 UUID
       }
     });
+    this.before('UPDATE', 'Employees', req => {
+      console.log(req.user)
+    });
     this.on('getCurrentUser', async (req) => {
       // console.log(req)
       const user = req.user;
-      console.log(user.tokenInfo ? user.tokenInfo.jwt : "")
-
-      const hasAdminRole = !!(user.roles && user.roles.Admin);
+      console.log(user)
+      
+      const hasAdminRole = (user.roles && user.roles.Admin);
       return {
         id: user.id,
         email: user.attr?.email || "Not available",

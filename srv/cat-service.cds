@@ -9,10 +9,7 @@ using employees_management.db as my from '../db/schema';
     },
     {
         grant: [
-            'READ',
-            'UPDATE',
-            'CREATE',
-            'DELETE'
+            '*'
         ],
         to   : 'Admin'
     },
