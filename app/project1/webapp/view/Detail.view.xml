@@ -13,19 +13,6 @@
     class="sapUiResponsivePadding">
     <headerContent>
       <Button 
-        id="addBtn"
-        text="Add"
-        icon="sap-icon://add"
-        press="onAddPress"
-        visible="{
-          parts: [
-            { path: 'local>/roles' },
-            { path: 'local>/isEdit' }
-          ],
-          formatter: '.isVisibleForAdminNotEditing'
-        }"/>
-
-      <Button 
         id="editBtn"
         text="Edit"
         icon="sap-icon://edit"

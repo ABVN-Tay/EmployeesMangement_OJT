@@ -71,7 +71,7 @@ sap.ui.define([
                 email: oEmployee.email,
                 hireDate: oEmployee.hireDate,
                 departments_ID: oEmployee.departments_ID,
-                roles_ID: oEmployee.roles_ID,
+                roles_ID: oEmployee.roles_ID
             };
             console.log(newEmployee)
 
