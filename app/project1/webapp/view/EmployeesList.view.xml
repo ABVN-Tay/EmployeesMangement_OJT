@@ -7,6 +7,15 @@
     <Page
         id="page"
         title="{i18n>title}">
+    <headerContent>
+      <Button 
+        id="addBtn1"
+        text="Add"
+        icon="sap-icon://add"
+        press="onAddPress"
+        visible="{= ${local>/roles} === 'Admin'}"/>     
+    </headerContent>        
+        <Label id="Separator" ></Label>
         <Table id="productsTable"
             items="{/Employees}">
             <columns>
@@ -38,61 +47,5 @@
                 </ColumnListItem>
             </items>
         </Table>
-        <!-- <Table
-            id="idEmployeesTable"
-            inset="false"
-            
-            mode="SingleSelectLeft"
-            itemPress="onRowPress"
-            items="{
-                        path: '/Employees'
-                    }">
-            <columns>
-            
-                <Column 
-                    id="IDColumn"
-                    minScreenWidth="Tablet"
-                    demandPopin="true"
-                    visible="false">
-                    <Text id="IDText" text="ID" />
-                </Column>
-                <Column 
-                    id="_NameColumn"
-                    minScreenWidth="Tablet"
-                    demandPopin="true">
-                    <Text id="_IDNameText" text="Name" />
-                </Column>
-                <Column
-                    id="EmailColumn"                
-                    minScreenWidth="Desktop"
-                    demandPopin="true"
-                    hAlign="Center">
-                    <Text id="_IDEmailText" text="Email" />
-                </Column>
-                <Column
-                    id="RolesColumn"                
-                    minScreenWidth="Desktop"
-                    demandPopin="true"
-                    hAlign="Center">
-                    <Text id="RolesText" text="Roles" />
-                </Column>
-                <Column
-                    id="DeparmentsColumn"                 
-                    hAlign="End">                
-                    <Text id="DepartmentsText" text="Departments" />
-                </Column>
-            </columns>
-            <items>
-                <ColumnListItem id="_IDGenColumnListItem" vAlign="Middle">
-                    <cells>
-                        <Text id="ID" text="{ID}" visible="false"/>
-                        <Text id="Name" text="{firstName} {lastName}" />
-                        <Text id="Email" text="{email}" />
-                        <Text id="Roles" text="{roles/name}" />
-                        <Text id="Departments" text="{departments/name}" />
-                    </cells>
-                </ColumnListItem>
-            </items>
-        </Table> -->
     </Page>
 </mvc:View>
