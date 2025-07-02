@@ -105,11 +105,9 @@ sap.ui.define([
         this.setDisplayMode();
       }
     },
-    saveEmployeeData:  function(){
+    saveEmployeeData: function () {
       // get data model from view (oModel binding in View)
       const oEmployee = this.getView().getModel("detailModel").getData();
-      const oLocal = this.getView().getModel("local").getData();
-      const accessToken = oLocal.token;
       const newEmployee = {
         ID: oEmployee.ID,
         firstName: oEmployee.firstName,
@@ -122,23 +120,18 @@ sap.ui.define([
         roles_ID: oEmployee.roles_ID,
         salary: parseFloat(oEmployee.salary)
       };
-      console.log("accessToken",accessToken)
-      console.log(newEmployee)
 
       fetch(`/catalogService/Employees(${oEmployee.ID})`, {
         method: "PUT",
         headers: {
           'Content-Type': 'application/json',
-          'x-csrf-token': 'Fetch',
-          // 'Authorization': `Bearer ${accessToken}`
-          
+          'x-csrf-token': 'Fetch'
         },
         body: JSON.stringify(newEmployee)
       })
         .then(response => {
-          //console.log(response.json())
           if (!response.ok) throw new Error("Network response was not ok");
-          return response.json();
+          return response;
         })
         .then(data => {
           console.log("Employee update:", data);
@@ -146,16 +139,16 @@ sap.ui.define([
           this.setDisplayMode();
         })
         .catch(err => {
-          console.error("Error creating employee:", err);
+          console.error("Error updating employee:", err);
         });
     },
 
     onSavePress: async function () {
-      var oBundle     = this.getView().getModel("i18n").getResourceBundle();
+      var oBundle = this.getView().getModel("i18n").getResourceBundle();
       var saveMessage = oBundle.getText("saveMessage");       // Get cancelMessagage   
       var noChangeMessage = oBundle.getText("noChange");       // Get cancelMessagage      
       const oEmployee = this.getView().getModel("detailModel").getData();
-      const isChange  = this.checkchange();
+      const isChange = this.checkchange();
       if (isChange) {
         // Show confirmation dialog before saving
         MessageBox.confirm(
@@ -171,16 +164,15 @@ sap.ui.define([
                   if (errors.length > 0) {
                     MessageBox.error(errors[0]);
                   }
-                }
-                else{
-                    this.saveEmployeeData();
-  
+                }else {
+                  this.saveEmployeeData();
+
                 }
               }
             }.bind(this)
           }
         );
-      }else{
+      } else {
         MessageToast.show(noChangeMessage);
       }
     },
@@ -284,7 +276,7 @@ sap.ui.define([
       detailModel.setProperty("/roles", matchRole);
 
     },
-    onDeletePress: function(){
+    onDeletePress: function () {
       var oBundle = this.getView().getModel("i18n").getResourceBundle();
       var deleteMessage = oBundle.getText("deleteMessage");       // Get cancelMessagage
       MessageBox.confirm(
@@ -299,11 +291,34 @@ sap.ui.define([
             }
           }.bind(this)
         }
-      );    
+      );
 
     },
-    deleteEmployee: function(){
-      
+    deleteEmployee: function () {
+      // get data model from view (oModel binding in View)
+      const oEmployee = this.getView().getModel("detailModel").getData();
+
+      fetch(`/catalogService/Employees(${oEmployee.ID})`, {
+        method: "DELETE",
+        headers: {
+          'Content-Type': 'application/json',
+          'x-csrf-token': 'Fetch',
+        }
+      })
+        .then(response => {
+          if (!response.ok) throw new Error("Network response was not ok");
+          return response;
+        })
+        .then(data => {
+          MessageToast.show("Delete successfully",{
+            closeOnBrowserNavigation: false 
+        })
+          this.getOwnerComponent().getRouter().navTo("RouteEmployeesList", {}, true);
+          this.setDisplayMode();
+        })
+        .catch(err => {
+          console.error("Error deleting employee:", err);
+        });
     }
   });
 });

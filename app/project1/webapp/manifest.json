@@ -106,7 +106,8 @@
         {
           "pattern": "create",
           "name": "Create",
-          "target": "create"
+          "target": "Create",
+          "level": 2
         },
         {
           "name": "EmployeesDetail",
@@ -121,9 +122,12 @@
       "targets": {
         "TargetEmployeesList": {
           "id": "EmployeesList",
-          "name": "EmployeesList"
+          "name": "EmployeesList",
+          "viewLevel": 1
+          
         },
-        "create": {
+        "Create": {
+          "id": "Create",
           "viewName": "Create",
           "viewLevel": 2
         },

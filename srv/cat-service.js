@@ -3,13 +3,16 @@ const { request } = require('express');
 class EmployeesService extends cds.ApplicationService {
   init() {
     this.before('CREATE', 'Employees', req => {
-      console.log(req.user)
-      if (!req.data.ID) {
-        req.data.ID = cds.utils.uuid(); // generates a v4 UUID
-      }
+      console.log("Before",req.data)
+    });
+    this.after('CREATE', 'Employees', req => {
+      console.log("After",req.data)
     });
     this.before('UPDATE', 'Employees', req => {
-      console.log(req.user)
+      console.log("Before",req.data)
+    });
+    this.after('UPDATE', 'Employees', req => {
+      console.log("After",req.data)
     });
     this.on('getCurrentUser', async (req) => {
       // console.log(req)
