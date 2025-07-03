@@ -2,7 +2,8 @@
     controllerName="project1.controller.EmployeesList"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
-	xmlns:p="sap.m.plugins"    
+	xmlns:p="sap.m.plugins"
+    xmlns:f="sap.ui.layout.form"    
     xmlns:core="sap.ui.core">
     <Page
         id="page"
@@ -15,6 +16,47 @@
         press="onAddPress"
         visible="{= ${local>/roles} === 'Admin'}"/>     
     </headerContent>        
+      <!-- <f:SimpleForm
+          id="filterForm"
+          layout="ResponsiveGridLayout"
+          labelSpanXL="3" labelSpanL="3" labelSpanM="4" labelSpanS="12"
+          adjustLabelSpan="false"
+          emptySpanXL="4" emptySpanL="4" emptySpanM="0" emptySpanS="0"
+          columnsXL="2" columnsL="2" columnsM="1">
+          <Label id="rolesLB"
+            text="Role Name" />               
+          <Select id="rolesFilter"
+            items="{
+              path: 'rolesModel>/Roles'
+            }"
+            change="onFilterChange"
+            editable="{
+              parts: [
+                { path: 'local>/roles' },
+                { path: 'local>/isEdit' }
+              ],
+              formatter: '.isVisibleForAdminEditing'
+            }"
+            >
+            <core:Item id="roleSelectItem" key="{rolesModel>ID}" text="{rolesModel>name}" />
+          </Select>
+            <Label id="departmentsLB"
+            text="Department Name" />        
+          <Select id="departmentsFilter"
+            items="{
+              path: 'departmentsModel>/Departments'
+            }"
+            editable="{
+              parts: [
+                { path: 'local>/roles' },
+                { path: 'local>/isEdit' }
+              ],
+              formatter: '.isVisibleForAdminEditing'
+            }"
+            change="onFilterChange">
+            <core:Item id="deparmentSelectItem" key="{departmentsModel>ID}" text="{departmentsModel>name}" />
+          </Select>
+      </f:SimpleForm> -->
         <Label id="Separator" ></Label> 
         <Table id="productsTable"
             items="{/Employees}">

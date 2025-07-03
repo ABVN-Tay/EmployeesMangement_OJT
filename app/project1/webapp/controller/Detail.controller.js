@@ -77,6 +77,30 @@ sap.ui.define([
       console.log(oEmployee)
 
     },
+    getCalSalary: async function (hireDate, role_ID) {
+      //send request to calculate salary
+      return fetch(`/catalogService/calculateSalary(hireDate=${hireDate},roles_ID=${role_ID})`, {
+          method: "GET",
+          headers: {
+              'x-csrf-token': 'Fetch',
+              "Accept": "application/json"
+          }
+      })
+          .then(response => {
+
+              if (!response.ok) throw new Error("Network response was not ok");
+              return response.json();
+              
+          })
+          .then(data => {
+
+              console.log(data)
+              return data.value
+          })
+          .catch(err => {
+              console.error("Error creating employee:", err);
+          });
+    },
     onCancelPress: function () {
       var oBundle = this.getView().getModel("i18n").getResourceBundle();
       var sCancelMessage = oBundle.getText("cancelMessage");       // Get cancelMessagage
@@ -105,9 +129,15 @@ sap.ui.define([
         this.setDisplayMode();
       }
     },
-    saveEmployeeData: function () {
+    saveEmployeeData: async function () {
       // get data model from view (oModel binding in View)
-      const oEmployee = this.getView().getModel("detailModel").getData();
+      const oEmployeeModel = this.getView().getModel("detailModel");
+      const oEmployee = oEmployeeModel.getData();
+      //Get calculate Salary
+      const calSalary = await this.getCalSalary(oEmployee.hireDate, oEmployee.roles_ID)
+      //overwrite to Employee salary
+      oEmployeeModel.setProperty("/salary",Number(calSalary).toFixed(2))
+
       const newEmployee = {
         ID: oEmployee.ID,
         firstName: oEmployee.firstName,
@@ -187,7 +217,10 @@ sap.ui.define([
     checkchange: function () {
       const detailModel = this.getView().getModel("detailModel");
       const detailData = detailModel.getData();
-      // Compare stringified versions (simple deep comparison)
+
+      console.log(detailData)
+      console.log(this._oOriginalData)
+      // Compare stringified versions
       return JSON.stringify(detailData) !== JSON.stringify(this._oOriginalData);
 
     },

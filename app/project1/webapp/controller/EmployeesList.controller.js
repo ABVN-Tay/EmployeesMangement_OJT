@@ -18,6 +18,23 @@ sap.ui.define([
             if (oBinding) {
                 oBinding.refresh(); // Triggers data reload from backend
             }
+            // Add filter to Employee List
+            // const oModel = this.getView().getModel();
+            // //Binding Deparments Model to View
+            // oModel.bindList("/Departments").requestContexts().then(aContexts => {
+            //     const aDepartments = aContexts.map(ctx => ctx.getObject());
+            //     const oDepartJSONModel = new JSONModel({ Departments: aDepartments });
+            //     console.log(oDepartJSONModel)
+            //     this.getView().setModel(oDepartJSONModel, "departmentsModel");
+            // });
+
+            // //Binding Roles Model to View        
+            // oModel.bindList("/Roles").requestContexts().then(aContexts => {
+            //     const aRoles = aContexts.map(ctx => ctx.getObject());
+            //     const oRoleJSONModel = new JSONModel({ Roles: aRoles });
+            //     console.log(oRoleJSONModel)
+            //     this.getView().setModel(oRoleJSONModel, "rolesModel");
+            // });
         },
         onPress: function (oEvent) {
             var oItem = oEvent.getSource();

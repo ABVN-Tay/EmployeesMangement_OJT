@@ -14,7 +14,7 @@ sap.ui.define([
             const oRouter = this.getOwnerComponent().getRouter();
             oRouter.getRoute("Create").attachPatternMatched(this._onObjectMatched, this);
         },
-        _onObjectMatched: function(){
+        _onObjectMatched: function () {
             this._initID = crypto.randomUUID()
             console.log(this._initID);
             //Initial employee Information
@@ -68,8 +68,6 @@ sap.ui.define([
         onSavePress: async function () {
             // get data model from view (oModel binding in View)
             const oEmployee = this.getView().getModel("initEmployee").oData;
-            // Get the router
-            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 
             // setup employee to create 
             const newEmployee = {
@@ -80,10 +78,10 @@ sap.ui.define([
                 gender: oEmployee.gender,
                 email: oEmployee.email,
                 hireDate: oEmployee.hireDate,
+                salary: null,
                 departments_ID: oEmployee.departments_ID,
                 roles_ID: oEmployee.roles_ID
             };
-            console.log(newEmployee)
             const errors = this.validateEmployee(newEmployee);
             if (errors.length > 0) {
                 if (errors.length > 0) {
@@ -91,10 +89,38 @@ sap.ui.define([
                 }
             }
             else {
-                this.createEmployee(newEmployee);
+                //calculate salary
+                const calSalary = await this.getCalSalary(newEmployee.hireDate, newEmployee.roles_ID);
 
+                //create Employee
+                newEmployee.salary = parseFloat(calSalary)
+                this.createEmployee(newEmployee);
             }
 
+        },
+        getCalSalary: async function (hireDate, role_ID) {
+            //send request to calculate salary
+            return fetch(`/catalogService/calculateSalary(hireDate=${hireDate},roles_ID=${role_ID})`, {
+                method: "GET",
+                headers: {
+                    'x-csrf-token': 'Fetch',
+                    "Accept": "application/json"
+                }
+            })
+                .then(response => {
+
+                    if (!response.ok) throw new Error("Network response was not ok");
+                    return response.json();
+                    
+                })
+                .then(data => {
+
+                    console.log(data)
+                    return data.value
+                })
+                .catch(err => {
+                    console.error("Error creating employee:", err);
+                });
         },
         createEmployee: function (employee) {
             //send request to create new employee
@@ -108,9 +134,8 @@ sap.ui.define([
                 body: JSON.stringify(employee)
             })
                 .then(response => {
-                    console.log(response.ID)
                     if (!response.ok) throw new Error("Network response was not ok");
-                    return response;
+                    return response.json();
                 })
                 .then(data => {
                     console.log("Employee created:", data);
@@ -118,7 +143,7 @@ sap.ui.define([
                         closeOnBrowserNavigation: false
                     })
                     this.setDisplayMode();
-                    this.getOwnerComponent().getRouter().navTo("EmployeesDetail", { id: this._initID }, true);
+                    this.getOwnerComponent().getRouter().navTo("EmployeesDetail", { id: data.ID }, true);
                 })
                 .catch(err => {
                     console.error("Error creating employee:", err);
@@ -184,15 +209,35 @@ sap.ui.define([
 
         },
         onNavBack: function () {
-            const oHistory = History.getInstance();
-            const sPreviousHash = oHistory.getPreviousHash();
-            if (sPreviousHash !== undefined) {
-                window.history.go(-1);
-            } else {
-                this.getOwnerComponent().getRouter().navTo("RouteEmployeesList", {}, true);
-            }
+            const oLocal = this.getView().getModel("local").oData;
+            console.log(oLocal.token)
 
-            this.setDisplayMode();
+            var oBundle = this.getView().getModel("i18n").getResourceBundle();
+            var sCancelMessage = oBundle.getText("cancelMessage");       // Get cancelMessagage
+            const localModel = this.getView().getModel("local");
+            const detailModel = this.getView().getModel("initEmployee");
+            const localData = localModel.getData();
+            const isChange = this.checkchange();
+            if (localData.isEdit && isChange) {
+                MessageBox.confirm(
+                    sCancelMessage,
+                    {
+                        title: "Unsaved Changes",
+                        actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+                        emphasizedAction: MessageBox.Action.NO,
+                        onClose: function (oAction) {
+                            if (oAction === MessageBox.Action.YES) {
+                                this.setDisplayMode();
+                                this.getOwnerComponent().getRouter().navTo("RouteEmployeesList");
+                            }
+                        }.bind(this)
+                    }
+                );
+            }
+            else {
+                this.setDisplayMode();
+                this.getOwnerComponent().getRouter().navTo("RouteEmployeesList");
+            }
         },
         isVisibleForAdminNotEditing: function (role, isEdit) {
             return role === 'Admin' && isEdit === false;
