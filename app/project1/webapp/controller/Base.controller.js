@@ -59,6 +59,15 @@ sap.ui.define([
             }
             if (!employee.roles_ID) {
                 errors.push("Role must not be blank");
+            }  
+            if (!employee.dateOfBirth) {
+                errors.push("Date Of Birth must not be blank");
+            }
+            if (!employee.email) {
+                errors.push("Email must not be blank");
+            }  
+            if (!employee.hireDate) {
+                errors.push("Hire Date must not be blank");
             }   
             if (!employee.departments_ID) {
                 errors.push("Department must not be blank");

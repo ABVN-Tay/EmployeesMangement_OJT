@@ -10,7 +10,8 @@
     "@sap/cds": "^8",
     "@sap/xssec": "^4",
     "express": "^4",
-    "luxon": "^3.6.1"
+    "luxon": "^3.6.1",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@cap-js/cds-types": "^0.10.0",

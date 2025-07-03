@@ -1,27 +1,36 @@
+
+
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/core/routing/History",
     "sap/m/MessageBox",
+    "sap/m/MessageToast",
     "sap/ui/model/json/JSONModel",
-    "project1/controller/Base.controller",
-    "sap/ui/core/format/DateFormat",
-], function (Controller, History, MessageBox, JSONModel, BaseController, DateFormat) {
+    "project1/controller/Base.controller"
+], function (Controller, History, MessageBox, MessageToast, JSONModel, BaseController) {
     "use strict";
-
     return BaseController.extend("project1.controller.Create", {
         onInit: function () {
+            const oRouter = this.getOwnerComponent().getRouter();
+            oRouter.getRoute("Create").attachPatternMatched(this._onObjectMatched, this);
+        },
+        _onObjectMatched: function () {
+            this._initID = crypto.randomUUID()
+            console.log(this._initID);
             //Initial employee Information
             const initEmployee = {
-                ID: "",
+                ID: this._initID,
                 firstName: "",
                 lastName: "",
                 dateOfBirth: "",
-                gender: "",
+                gender: "Male",
                 email: "",
                 hireDate: "",
-                roles_ID: "",
-                departments_ID: ""
+                roles_ID: "22eae33c-56a3-4a6f-a16f-70d9877c1692",       //Marketing Specialist , 68000
+                departments_ID: "9c1f63ef-3c65-4373-8927-6e2fca942e70"  //Marketing
             };
+            this._oOriginalData = JSON.parse(JSON.stringify(initEmployee));
+
             // create Model for view
             const empModel = new JSONModel(initEmployee);
             this.getView().setModel(empModel, "initEmployee");
@@ -59,24 +68,61 @@ sap.ui.define([
         onSavePress: async function () {
             // get data model from view (oModel binding in View)
             const oEmployee = this.getView().getModel("initEmployee").oData;
-            const oLocal = this.getView().getModel("local").getData();
-            const accessToken = oLocal.token;
-            console.log("initEmployee ", oEmployee)
 
             // setup employee to create 
             const newEmployee = {
-                ID: "",
+                ID: this._initID,
                 firstName: oEmployee.firstName,
                 lastName: oEmployee.lastName,
                 dateOfBirth: oEmployee.dateOfBirth,
                 gender: oEmployee.gender,
                 email: oEmployee.email,
                 hireDate: oEmployee.hireDate,
+                salary: null,
                 departments_ID: oEmployee.departments_ID,
                 roles_ID: oEmployee.roles_ID
             };
-            console.log(newEmployee)
+            const errors = this.validateEmployee(newEmployee);
+            if (errors.length > 0) {
+                if (errors.length > 0) {
+                    MessageBox.error(errors[0]);
+                }
+            }
+            else {
+                //calculate salary
+                const calSalary = await this.getCalSalary(newEmployee.hireDate, newEmployee.roles_ID);
 
+                //create Employee
+                newEmployee.salary = parseFloat(calSalary)
+                this.createEmployee(newEmployee);
+            }
+
+        },
+        getCalSalary: async function (hireDate, role_ID) {
+            //send request to calculate salary
+            return fetch(`/catalogService/calculateSalary(hireDate=${hireDate},roles_ID=${role_ID})`, {
+                method: "GET",
+                headers: {
+                    'x-csrf-token': 'Fetch',
+                    "Accept": "application/json"
+                }
+            })
+                .then(response => {
+
+                    if (!response.ok) throw new Error("Network response was not ok");
+                    return response.json();
+                    
+                })
+                .then(data => {
+
+                    console.log(data)
+                    return data.value
+                })
+                .catch(err => {
+                    console.error("Error creating employee:", err);
+                });
+        },
+        createEmployee: function (employee) {
             //send request to create new employee
             fetch("/catalogService/Employees", {
                 method: "POST",
@@ -85,7 +131,7 @@ sap.ui.define([
                     'x-csrf-token': 'Fetch',
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(newEmployee)
+                body: JSON.stringify(employee)
             })
                 .then(response => {
                     if (!response.ok) throw new Error("Network response was not ok");
@@ -93,6 +139,11 @@ sap.ui.define([
                 })
                 .then(data => {
                     console.log("Employee created:", data);
+                    MessageToast.show("Employee created successfully", {
+                        closeOnBrowserNavigation: false
+                    })
+                    this.setDisplayMode();
+                    this.getOwnerComponent().getRouter().navTo("EmployeesDetail", { id: data.ID }, true);
                 })
                 .catch(err => {
                     console.error("Error creating employee:", err);
@@ -108,33 +159,85 @@ sap.ui.define([
                 gender: "Male",
                 email: "john.doe@example.com",
                 hireDate: "2023-01-10",
-                roles_ID: "57e61a56-e7f1-4e91-949d-2b9ae73d3903",       //Marketing Specialist , 68000
-                departments_ID: "9c1f63ef-3c65-4373-8927-6e2fca942e70"  //Marketing
+                roles_ID: "22eae33c-56a3-4a6f-a16f-70d9877c1692",       //Marketing Specialist , 68000
+                departments_ID: "9c1f63ef-3c65-4373-8927-6e2fca942e70"  //Marketingeting
             };
             console.log(initEmployee)
             const empModel = new JSONModel(initEmployee);
             this.getView().setModel(empModel, "initEmployee");
+            this._oOriginalData = JSON.parse(JSON.stringify(initEmployee));
         },
         onCancelPress: function () {
-            const oModel = this.getView().getModel();
-            const oContext = this.getView().getBindingContext();
+            const oLocal = this.getView().getModel("local").oData;
+            console.log(oLocal.token)
 
-            // Roll back the new entry
-            oModel.deleteCreatedEntry(oContext);
-
-            this.getOwnerComponent().getRouter().navTo("RouteEmployeesList", {}, true);
-        },
-
-        onNavBack: function () {
-            const oHistory = History.getInstance();
-            const sPreviousHash = oHistory.getPreviousHash();
-            if (sPreviousHash !== undefined) {
-                window.history.go(-1);
-            } else {
-                this.getOwnerComponent().getRouter().navTo("RouteEmployeesList", {}, true);
+            var oBundle = this.getView().getModel("i18n").getResourceBundle();
+            var sCancelMessage = oBundle.getText("cancelMessage");       // Get cancelMessagage
+            const localModel = this.getView().getModel("local");
+            const detailModel = this.getView().getModel("initEmployee");
+            const localData = localModel.getData();
+            const isChange = this.checkchange();
+            if (localData.isEdit && isChange) {
+                MessageBox.confirm(
+                    sCancelMessage,
+                    {
+                        title: "Unsaved Changes",
+                        actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+                        emphasizedAction: MessageBox.Action.NO,
+                        onClose: function (oAction) {
+                            if (oAction === MessageBox.Action.YES) {
+                                this.setDisplayMode();
+                                this.getOwnerComponent().getRouter().navTo("RouteEmployeesList");
+                            }
+                        }.bind(this)
+                    }
+                );
             }
+            else {
+                this.setDisplayMode();
+                this.getOwnerComponent().getRouter().navTo("RouteEmployeesList");
+            }
+        },
+        checkchange: function () {
+            const detailData = this.getView().getModel("initEmployee").getData();
+            console.log(detailData)
+            console.log(typeof detailData)
+            console.log(this._oOriginalData)
+            console.log(typeof this._oOriginalData)
+            // Compare stringified versions (simple deep comparison)
+            return JSON.stringify(detailData) !== JSON.stringify(this._oOriginalData);
 
-            this.setDisplayMode();
+        },
+        onNavBack: function () {
+            const oLocal = this.getView().getModel("local").oData;
+            console.log(oLocal.token)
+
+            var oBundle = this.getView().getModel("i18n").getResourceBundle();
+            var sCancelMessage = oBundle.getText("cancelMessage");       // Get cancelMessagage
+            const localModel = this.getView().getModel("local");
+            const detailModel = this.getView().getModel("initEmployee");
+            const localData = localModel.getData();
+            const isChange = this.checkchange();
+            if (localData.isEdit && isChange) {
+                MessageBox.confirm(
+                    sCancelMessage,
+                    {
+                        title: "Unsaved Changes",
+                        actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+                        emphasizedAction: MessageBox.Action.NO,
+                        onClose: function (oAction) {
+                            if (oAction === MessageBox.Action.YES) {
+                                this.setDisplayMode();
+                                this.getOwnerComponent().getRouter().navTo("RouteEmployeesList");
+                            }
+                        }.bind(this)
+                    }
+                );
+            }
+            else {
+                this.setDisplayMode();
+                this.getOwnerComponent().getRouter().navTo("RouteEmployeesList");
+            }
         },
         isVisibleForAdminNotEditing: function (role, isEdit) {
             return role === 'Admin' && isEdit === false;
